@@ -12,24 +12,18 @@ public class BankAccountService {
     }
 
     public boolean registerUser(String login, String password) {
-        boolean taken = clientRepository
-                .findALL()
-                .stream()
-                .allMatch(c -> c.getLogin().equalsIgnoreCase(login));
-        if (taken) return false;
+        if (clientRepository.findByLogin(login).isPresent()) {
+            return false;
+        }
 
         clientRepository.save(new Client(login, password));
         return true;
     }
 
     public boolean loginUser(String login, String password) {
-        Optional<Client> match = clientRepository
-                .findALL()
-                .stream()
-                .filter(c -> c.getLogin().equalsIgnoreCase(login) && c.getPassword().equals(password)).findFirst();
-
-        if (match.isPresent()) {
-            loggedInClient = match.get();
+        Optional<Client> client = clientRepository.findByLoginAndPassoword(login, password);
+        if (client.isPresent()) {
+            loggedInClient = client.get();
             return true;
         }
         return false;
