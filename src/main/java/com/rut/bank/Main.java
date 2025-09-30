@@ -1,17 +1,17 @@
 package com.rut.bank;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import com.rut.bank.model.BankAccountController;
+import com.rut.bank.model.BankAccountService;
+import com.rut.bank.model.BankAccountView;
+import com.rut.bank.model.ClientRepository;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        ClientRepository repo = new ClientRepository();
+        BankAccountService service = new BankAccountService(repo);
+        BankAccountView view = new BankAccountView();
+        BankAccountController controller = new BankAccountController(service, view);
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        controller.start();
     }
 }

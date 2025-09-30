@@ -83,7 +83,9 @@ public class BankAccountController {
             switch (choice) {
                 case "1" -> {
                     while (true) {
-                        BigDecimal amount = view.askForAmount("Enter the amount to deposit: ");
+                        String input = view.askForInput("Enter the amount to deposit (or q to exit): ");
+                        if (input.equals("q")) break;
+                        BigDecimal amount = view.parseStringToBigDecimal(input);
                         if (DataValidator.validateDeposit(amount)) {
                             BigDecimal balance = service.makeDeposit(amount);
                             view.printMessage("Funds deposited. Balance: " + balance);
@@ -95,7 +97,9 @@ public class BankAccountController {
                 }
                 case "2" -> {
                     while (true) {
-                        BigDecimal amount = view.askForAmount("Enter the amount to withdraw: ");
+                        String input = view.askForInput("Enter the amount to withdraw (or q to exit): ");
+                        if (input.equals("q")) break;
+                        BigDecimal amount = view.parseStringToBigDecimal(input);
                         if (amount == null) {
                             view.printMessage("Invalid number, try again.");
                             continue;
