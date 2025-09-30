@@ -25,7 +25,7 @@ public class Client extends Entity<UUID> {
     public String getLogin() { return login; }
     public String getPassword() { return password; }
     public BigDecimal getBalance() { return balance; }
-    public LocalDateTime getDataCreated() { return  dataCreated; }
+    public LocalDateTime getDateCreated() { return  dataCreated; }
 
 
     public BigDecimal makeDeposit(BigDecimal amount) {
