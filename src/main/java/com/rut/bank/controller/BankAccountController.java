@@ -1,7 +1,7 @@
 package com.rut.bank.controller;
 
 import com.rut.bank.model.BankAccountService;
-import com.rut.bank.view.BankAccountView;
+import com.rut.bank.view.console.BankAccountView;
 import com.rut.bank.util.DataValidator;
 
 import java.math.BigDecimal;

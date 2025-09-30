@@ -1,4 +1,4 @@
-package com.rut.bank.view;
+package com.rut.bank.view.console;
 
 import java.math.BigDecimal;
 import java.util.Scanner;

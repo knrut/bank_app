@@ -2,7 +2,7 @@ package com.rut.bank;
 
 import com.rut.bank.controller.BankAccountController;
 import com.rut.bank.model.BankAccountService;
-import com.rut.bank.view.BankAccountView;
+import com.rut.bank.view.console.BankAccountView;
 import com.rut.bank.repository.ClientRepository;
 
 public class Main {
