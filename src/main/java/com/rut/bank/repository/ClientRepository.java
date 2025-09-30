@@ -1,4 +1,6 @@
-package com.rut.bank.model;
+package com.rut.bank.repository;
+
+import com.rut.bank.model.Client;
 
 import java.util.Optional;
 import java.util.UUID;

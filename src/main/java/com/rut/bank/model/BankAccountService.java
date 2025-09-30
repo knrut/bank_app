@@ -1,5 +1,7 @@
 package com.rut.bank.model;
 
+import com.rut.bank.repository.ClientRepository;
+
 import java.math.BigDecimal;
 import java.util.Optional;
 
