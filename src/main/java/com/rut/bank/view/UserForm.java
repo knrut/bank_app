@@ -2,6 +2,7 @@ package com.rut.bank.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.function.Function;
 
 public class UserForm {
     private JPanel panel;
@@ -12,7 +13,7 @@ public class UserForm {
     private JButton buttonLogout;
     private JFrame frame;
 
-    public UserForm() {
+    public UserForm(Runnable onCloseCallback) {
         // główny panel z marginesem
         panel = new JPanel(new BorderLayout(20, 20));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -24,7 +25,7 @@ public class UserForm {
         topPanel.add(labelBalance);
 
         // środkowy panel z przyciskami
-        JPanel centerPanel = new JPanel(new GridLayout(2, 2, 20, 20));
+        JPanel centerPanel = new JPanel(new GridLayout(4, 1, 20, 20));
         buttonDeposit = new JButton("Deposit");
         buttonWithdraw = new JButton("Withdraw");
         buttonInfo = new JButton("Info");
@@ -49,8 +50,16 @@ public class UserForm {
         frame = new JFrame("Bank - User Panel");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setContentPane(panel);
-        frame.setSize(400, 300); // większe okno
+        frame.setSize(600, 400); // większe okno
         frame.setLocationRelativeTo(null); // centrowanie
+
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                if (onCloseCallback != null) onCloseCallback.run();
+            }
+        });
+
         frame.setVisible(true);
     }
 

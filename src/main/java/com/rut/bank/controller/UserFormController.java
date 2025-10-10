@@ -15,7 +15,7 @@ public class UserFormController {
     
     public UserFormController(BankAccountService service) {
         this.service = service;
-        this.userForm = new UserForm();
+        this.userForm = new UserForm(this::onLogout);
         updateBalance();
         control();
     }
