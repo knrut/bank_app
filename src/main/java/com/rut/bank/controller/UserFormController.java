@@ -3,6 +3,7 @@ package com.rut.bank.controller;
 import com.rut.bank.model.BankAccountService;
 import com.rut.bank.model.Client;
 import com.rut.bank.model.Entity;
+import com.rut.bank.util.DataValidator;
 import com.rut.bank.view.UserForm;
 
 import javax.swing.*;
@@ -29,16 +30,28 @@ public class UserFormController {
 
     private void onDeposit() {
         String input = JOptionPane.showInputDialog(userForm.getFrame(), "Enter deposit amount:");
-        try {
+        if (DataValidator.isDecimal(input)) {
             BigDecimal amount = new BigDecimal(input);
-            service.makeDeposit(amount);
-            updateBalance();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(userForm.getFrame(), "Invalid amount");
+            if (DataValidator.validateDeposit(amount)) {
+                service.makeDeposit(amount);
+                updateBalance();
+            } else {
+                JOptionPane.showMessageDialog(userForm.getFrame(), "Incorrect amount");
+            }
         }
     }
 
     private void onWithdraw() {
+        String input = JOptionPane.showInputDialog(userForm.getFrame(), "Enter withdrawal amount:");
+        if (DataValidator.isDecimal(input)) {
+            BigDecimal amount = new BigDecimal(input);
+            if (DataValidator.validateWithdrawal(amount, service.getBalance())) {
+                service.makeWithdrawal(amount);
+                updateBalance();
+            } else {
+                JOptionPane.showMessageDialog(userForm.getFrame(), "Exceeded withdrawal funds");
+            }
+        }
     }
 
     private void onLogout() {

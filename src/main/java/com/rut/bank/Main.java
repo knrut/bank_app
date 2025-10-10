@@ -8,12 +8,6 @@ import com.rut.bank.repository.ClientRepository;
 
 public class Main {
     public static void main(String[] args) {
-//        ClientRepository repo = new ClientRepository();
-//        BankAccountService service = new BankAccountService(repo);
-//        BankAccountView view = new BankAccountView();
-//        BankAccountController controller = new BankAccountController(service, view);
-//
-//        controller.start();
         ClientRepository repo = new ClientRepository();
         BankAccountService service = new BankAccountService(repo);
         LoginFormController controller = new LoginFormController(service);

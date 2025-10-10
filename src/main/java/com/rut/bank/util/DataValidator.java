@@ -14,4 +14,16 @@ public class DataValidator {
     public static boolean validateWithdrawal(BigDecimal amount, BigDecimal balance) {
         return amount != null && amount.compareTo(BigDecimal.ZERO) > 0 && balance.compareTo(amount) >= 0;
     }
+
+    public static boolean isDecimal(String input) {
+        if (input == null || input.isBlank()) return false;
+
+        try {
+            new java.math.BigDecimal(input);
+            return true;
+        }
+        catch (NumberFormatException _) {
+            return false;
+        }
+    }
 }
