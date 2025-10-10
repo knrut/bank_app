@@ -15,6 +15,8 @@ public class Main {
 //
 //        controller.start();
         ClientRepository repo = new ClientRepository();
-        LoginFormController controller = new LoginFormController(repo);
+        BankAccountService service = new BankAccountService(repo);
+        LoginFormController controller = new LoginFormController(service);
+
     }
 }

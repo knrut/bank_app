@@ -11,8 +11,8 @@ public class LoginFormController {
     private final BankAccountService service;
     private final LoginForm loginForm;
     
-    public LoginFormController(ClientRepository repository) {
-        this.service = new BankAccountService(repository);
+    public LoginFormController(BankAccountService service) {
+        this.service = service;
         this.loginForm = new LoginForm();
         control();
     }
@@ -26,8 +26,11 @@ public class LoginFormController {
         String login = loginForm.getTextFieldLogin().getText();
         String password = new String(loginForm.getTextFieldPassword().getPassword());
 
+
         if (service.registerUser(login, password)) {
             JOptionPane.showMessageDialog(loginForm.getFrame(), "User registered: " + login);
+            loginForm.getTextFieldLogin().setText("");
+            loginForm.getTextFieldPassword().setText("");
         }
         else {
             JOptionPane.showMessageDialog(loginForm.getFrame(), "Login already taken!");
@@ -40,7 +43,8 @@ public class LoginFormController {
 
         if (service.loginUser(login, password)) {
             JOptionPane.showMessageDialog(loginForm.getFrame(), "Logged in as: " + login);
-            // TODO: -> UserPanel / AdminPanel
+            loginForm.getFrame().dispose();
+            new UserFormController(service);
         }
         else {
             JOptionPane.showMessageDialog(loginForm.getFrame(), "Incorrect login or password");

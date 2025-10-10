@@ -13,23 +13,35 @@ public class UserForm {
     private JFrame frame;
 
     public UserForm() {
-        panel = new JPanel(new BorderLayout(10, 10));
+        // główny panel z marginesem
+        panel = new JPanel(new BorderLayout(20, 20));
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        JPanel topPanel = new JPanel();
+        // górny pasek z balansem
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         labelBalance = new JLabel("Balance: 0.00");
+        labelBalance.setFont(new Font("Arial", Font.BOLD, 18));
         topPanel.add(labelBalance);
 
-        JPanel centerPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+        // środkowy panel z przyciskami
+        JPanel centerPanel = new JPanel(new GridLayout(2, 2, 20, 20));
         buttonDeposit = new JButton("Deposit");
         buttonWithdraw = new JButton("Withdraw");
         buttonInfo = new JButton("Info");
         buttonLogout = new JButton("Logout");
+
+        // większe przyciski
+        buttonDeposit.setPreferredSize(new Dimension(150, 50));
+        buttonWithdraw.setPreferredSize(new Dimension(150, 50));
+        buttonInfo.setPreferredSize(new Dimension(150, 50));
+        buttonLogout.setPreferredSize(new Dimension(150, 50));
 
         centerPanel.add(buttonDeposit);
         centerPanel.add(buttonWithdraw);
         centerPanel.add(buttonInfo);
         centerPanel.add(buttonLogout);
 
+        // składamy całość
         panel.add(topPanel, BorderLayout.NORTH);
         panel.add(centerPanel, BorderLayout.CENTER);
 
@@ -37,8 +49,8 @@ public class UserForm {
         frame = new JFrame("Bank - User Panel");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setContentPane(panel);
-        frame.pack();
-        frame.setLocationRelativeTo(null); // centrowanie okna
+        frame.setSize(400, 300); // większe okno
+        frame.setLocationRelativeTo(null); // centrowanie
         frame.setVisible(true);
     }
 
