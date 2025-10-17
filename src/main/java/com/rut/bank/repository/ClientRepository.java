@@ -5,7 +5,11 @@ import com.rut.bank.model.Client;
 import java.util.Optional;
 import java.util.UUID;
 
-public class ClientRepository extends InMemoryRepository<UUID, Client> {
+public class ClientRepository extends InFileRepository<UUID, Client> {
+
+    public ClientRepository(String filePath) {
+        super(filePath);
+    }
 
     public Optional<Client> findByLogin(String login) {
         return findALL()

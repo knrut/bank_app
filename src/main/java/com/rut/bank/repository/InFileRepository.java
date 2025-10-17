@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class InFileRepository<ID, E extends Entity<ID>> implements Repository<ID, E> {
-
     private final File file;
     private List<E> db = new ArrayList<>();
 

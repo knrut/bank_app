@@ -8,9 +8,8 @@ import com.rut.bank.repository.ClientRepository;
 
 public class Main {
     public static void main(String[] args) {
-        ClientRepository repo = new ClientRepository();
+        ClientRepository repo = new ClientRepository("/Users/kn/IdeaProjects/bank-app/src/main/java/com/rut/bank/repo.txt");
         BankAccountService service = new BankAccountService(repo);
         LoginFormController controller = new LoginFormController(service);
-
     }
 }

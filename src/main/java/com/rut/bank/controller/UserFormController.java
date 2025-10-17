@@ -35,6 +35,7 @@ public class UserFormController {
             if (DataValidator.validateDeposit(amount)) {
                 service.makeDeposit(amount);
                 updateBalance();
+                service.updateInfo();
             } else {
                 JOptionPane.showMessageDialog(userForm.getFrame(), "Incorrect amount");
             }
@@ -48,6 +49,7 @@ public class UserFormController {
             if (DataValidator.validateWithdrawal(amount, service.getBalance())) {
                 service.makeWithdrawal(amount);
                 updateBalance();
+                service.updateInfo();
             } else {
                 JOptionPane.showMessageDialog(userForm.getFrame(), "Exceeded withdrawal funds");
             }

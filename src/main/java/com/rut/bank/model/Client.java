@@ -1,10 +1,11 @@
 package com.rut.bank.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class Client extends Entity<UUID> {
+public class Client extends Entity<UUID> implements Serializable {
     private String login;
     private String password;
     private BigDecimal balance;
