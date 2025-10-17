@@ -47,6 +47,10 @@ public class BankAccountService {
         return loggedInClient;
     }
 
+    public ClientRepository getClientRepository() {
+        return clientRepository;
+    }
+
     public void updateInfo() {
         clientRepository.update(loggedInClient);
     }

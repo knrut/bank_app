@@ -5,6 +5,7 @@ import com.rut.bank.model.Client;
 import com.rut.bank.repository.ClientRepository;
 import com.rut.bank.util.DataValidator;
 import com.rut.bank.view.LoginForm;
+import com.rut.bank.view.UserForm;
 
 import javax.swing.*;
 
@@ -52,7 +53,10 @@ public class LoginFormController {
         if (service.loginUser(login, password)) {
             JOptionPane.showMessageDialog(loginForm.getFrame(), "Logged in as: " + login);
             loginForm.getFrame().dispose();
-            new UserFormController(service);
+            switch (service.getLoggedInClient().getRole()) {
+                case ADMIN -> new AdminFormController(service.getClientRepository());
+                case USER -> new UserFormController(service);
+            }
         } else {
             JOptionPane.showMessageDialog(loginForm.getFrame(), "Incorrect login or password");
             loginForm.getTextFieldLogin().setText("");
