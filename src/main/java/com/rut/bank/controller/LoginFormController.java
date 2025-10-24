@@ -51,7 +51,7 @@ public class LoginFormController {
             JOptionPane.showMessageDialog(loginForm.getFrame(), "Logged in as: " + login);
             loginForm.getFrame().dispose();
             switch (service.getLoggedInClient().getRole()) {
-                case ADMIN -> new AdminFormController(service.getClientRepository());
+                case ADMIN -> new AdminFormController(service, service.getClientRepository(), service.getTransactionRepository());
                 case USER -> new UserFormController(service);
             }
         } else {

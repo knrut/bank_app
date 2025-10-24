@@ -1,16 +1,19 @@
 package com.rut.bank.model;
 
 import com.rut.bank.repository.BankAccountRepository;
+import com.rut.bank.repository.TransactionRepository;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 
 public class BankAccountService {
     private final BankAccountRepository bankAccountRepository;
+    private final TransactionRepository transactionRepository;
     private BankAccount loggedInBankAccount;
 
-    public BankAccountService(BankAccountRepository bankAccountRepository) {
+    public BankAccountService(BankAccountRepository bankAccountRepository, TransactionRepository transactionRepository) {
         this.bankAccountRepository = bankAccountRepository;
+        this.transactionRepository = transactionRepository;
     }
 
     public boolean registerUser(String login, String password) {
@@ -32,10 +35,12 @@ public class BankAccountService {
     }
 
     public BigDecimal makeDeposit(BigDecimal amount) {
+        transactionRepository.save(new Transaction(TransactionType.DEPOSIT, loggedInBankAccount, amount, null));
         return loggedInBankAccount.makeDeposit(amount);
     }
 
     public BigDecimal makeWithdrawal(BigDecimal amount) {
+        transactionRepository.save(new Transaction(TransactionType.WITHDRAWAL, loggedInBankAccount, amount, null));
         return loggedInBankAccount.makeWithdrawal(amount);
     }
 
@@ -51,6 +56,10 @@ public class BankAccountService {
         return bankAccountRepository;
     }
 
+    public TransactionRepository getTransactionRepository() {
+        return transactionRepository;
+    }
+
     public void updateInfo() {
         bankAccountRepository.update(loggedInBankAccount);
     }
@@ -58,6 +67,7 @@ public class BankAccountService {
     public void makeTransfer(BigDecimal amount, String whereTo) {
         Optional<BankAccount> receiver = bankAccountRepository.findByLogin(whereTo);
         if (receiver.isPresent()) {
+            transactionRepository.save(new Transaction(TransactionType.TRANSFER, loggedInBankAccount, amount, receiver.get()));
             loggedInBankAccount.makeWithdrawal(amount);
             receiver.get().makeDeposit(amount);
         }

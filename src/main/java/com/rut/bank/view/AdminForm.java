@@ -1,17 +1,18 @@
 package com.rut.bank.view;
 
-import com.rut.bank.model.Entity;
-import com.rut.bank.repository.Repository;
-import com.rut.bank.table.GenericTableModel;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
 import javax.swing.*;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 public class AdminForm {
     private final JFrame frame;
-    private JTable table;
-    private JButton buttonLogout;
+    private final JTable table;
+    private final JButton buttonShowAccounts;
+    private final JButton buttonShowTransactions;
+    private final JButton buttonRefresh;
+    private final JButton buttonLogout;
 
     public AdminForm(Runnable onLogout) {
         frame = new JFrame("Bank - Admin Panel");
@@ -29,12 +30,24 @@ public class AdminForm {
         table.setAutoCreateRowSorter(true);
         scrollPane_1.setViewportView(table);
 
-        buttonLogout = new JButton("Logout");
-        var bottom = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        bottom.add(buttonLogout);
 
+        buttonShowAccounts = new JButton("Show Accounts");
+        buttonShowTransactions = new JButton("Show Transactions");
+
+        var topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        topPanel.add(buttonShowAccounts);
+        topPanel.add(buttonShowTransactions);
+
+        buttonRefresh = new JButton("Refresh");
+        buttonLogout = new JButton("Logout");
+
+        var bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        bottomPanel.add(buttonRefresh);
+        bottomPanel.add(buttonLogout);
+
+        panel.add(topPanel, BorderLayout.NORTH);
         panel.add(new JScrollPane(table), BorderLayout.CENTER);
-        panel.add(bottom, BorderLayout.SOUTH);
+        panel.add(bottomPanel, BorderLayout.SOUTH);
 
         // callbacks tylko jako Runnable – View nie zna logiki
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -45,7 +58,7 @@ public class AdminForm {
         buttonLogout.addActionListener(e -> { if (onLogout != null) onLogout.run(); });
 
         frame.setContentPane(panel);
-        frame.setSize(1000, 500);
+        frame.setSize(1100, 600);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
@@ -53,9 +66,9 @@ public class AdminForm {
 
     public JFrame getFrame() { return frame; }
     public JTable getTable() { return table; }
-
-    public void setTableModel(javax.swing.table.TableModel model) {
-        table.setModel(model);
-    }
+    public void setTableModel(javax.swing.table.TableModel model) { table.setModel(model); }
+    public void onShowAccount(Runnable r ) { buttonShowAccounts.addActionListener(e -> r.run());}
+    public void onShowTransactions(Runnable r) { buttonShowTransactions.addActionListener(e -> r.run());}
+    public void onRefresh(Runnable r) { buttonRefresh.addActionListener(e -> r.run()); }
 
 }

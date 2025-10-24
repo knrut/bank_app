@@ -22,7 +22,27 @@ public class Transaction extends Entity<UUID> implements Serializable {
        this.executedAt = LocalDateTime.now();
    }
 
+   public TransactionType getTransactionType() {
+       return transactionType;
+   }
+
+   public BankAccount getPerfomedBy() {
+       return perfomedBy;
+   }
+
+   public String getPerfomedByLogin() {
+       return getPerfomedBy().getLogin();
+   }
+
+   public BigDecimal getAmount() {
+       return amount;
+   }
+
    public Optional<BankAccount> getSentTo() {
        return Optional.ofNullable(sentTo);
+   }
+
+   public LocalDateTime getExecutedAt() {
+       return executedAt;
    }
 }

@@ -1,25 +1,37 @@
 package com.rut.bank.controller;
 
 import com.rut.bank.model.BankAccount;
+import com.rut.bank.model.BankAccountService;
+import com.rut.bank.model.Transaction;
 import com.rut.bank.repository.BankAccountRepository;
+import com.rut.bank.repository.TransactionRepository;
 import com.rut.bank.table.GenericTableModel;
 import com.rut.bank.view.AdminForm;
+import com.rut.bank.view.LoginForm;
 
+import javax.swing.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.function.Function;
 
 public class AdminFormController {
-    private final BankAccountRepository repo;
-    private final AdminForm view;
-    private final GenericTableModel<BankAccount> model;
+    private final BankAccountService service;
+    private final BankAccountRepository bankAccountRepository;
+    private final TransactionRepository transactionRepository;
+    private final AdminForm adminForm;
+    private final GenericTableModel<BankAccount> accountsModel;
+    private final GenericTableModel<Transaction> transactionsModel;
 
-    public AdminFormController(BankAccountRepository repo) {
-        this.repo = repo;
+    private boolean showingAccounts = true;
+
+    public AdminFormController(BankAccountService service, BankAccountRepository bankAccountRepository, TransactionRepository transactionRepository) {
+        this.service = service;
+        this.bankAccountRepository = bankAccountRepository;
+        this.transactionRepository = transactionRepository;
 
         var fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        model = new GenericTableModel<BankAccount>(
+        accountsModel = new GenericTableModel<BankAccount>(
                 new String[]{"UUID","Login","Balance","Date Created"},
                 Arrays.<Function<BankAccount,Object>>asList(
                         BankAccount::getID,
@@ -29,20 +41,54 @@ public class AdminFormController {
                 )
         );
 
-        view = new AdminForm(this::onLogout);
-        view.setTableModel(model);
+        transactionsModel = new GenericTableModel<>(
+                new String[]{"Type","Performed By","Amount","Sent To","Executed At"},
+                Arrays.<Function<Transaction,Object>>asList(
+                        Transaction::getTransactionType,
+                        Transaction::getPerfomedByLogin,
+                        Transaction::getAmount,
+                        t -> t.getSentTo().map(BankAccount::getLogin).orElse("-"),
+                        t -> t.getExecutedAt().format(fmt)
+                )
+        );
 
-        view.setTableModel(model);
-        model.reload(repo.findALL());
+        adminForm = new AdminForm(this::onLogout);
+        adminForm.setTableModel(accountsModel);
+        reloadAccounts();
+
+        adminForm.onShowAccount(this::showAccounts);
+        adminForm.onShowTransactions(this::showTransactions);
+        adminForm.onRefresh(this::reloadCurrentTable);
     }
 
-    private void reload() {
-        model.reload(repo.findALL());   // Controller pobiera dane i ładuje do modelu
+    private void showAccounts() {
+        showingAccounts = true;
+        adminForm.setTableModel(accountsModel);
+        reloadAccounts();
+    }
+
+    private void showTransactions() {
+        showingAccounts = false;
+        adminForm.setTableModel(transactionsModel);
+        reloadTransactions();
+    }
+
+    private void reloadCurrentTable() {
+        if (showingAccounts) reloadAccounts();
+        else reloadTransactions();
+    }
+
+    private void reloadTransactions() {
+        transactionsModel.reload(transactionRepository.findALL());
+    }
+
+    private void reloadAccounts() {
+        accountsModel.reload(bankAccountRepository.findALL());
     }
 
     private void onLogout() {
-        view.getFrame().dispose();
-        // … np. powrót do LoginFormController
-        // new LoginFormController(sharedService);
+        JOptionPane.showMessageDialog(adminForm.getFrame(), "Logged out");
+        adminForm.getFrame().dispose();
+        new LoginFormController(service);
     }
 }
