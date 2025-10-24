@@ -1,57 +1,65 @@
 package com.rut.bank.model;
 
-import com.rut.bank.repository.ClientRepository;
+import com.rut.bank.repository.BankAccountRepository;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 
 public class BankAccountService {
-    private final ClientRepository clientRepository;
-    private Client loggedInClient;
+    private final BankAccountRepository bankAccountRepository;
+    private BankAccount loggedInBankAccount;
 
-    public BankAccountService(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
+    public BankAccountService(BankAccountRepository bankAccountRepository) {
+        this.bankAccountRepository = bankAccountRepository;
     }
 
     public boolean registerUser(String login, String password) {
-        if (clientRepository.findByLogin(login).isPresent()) {
+        if (bankAccountRepository.findByLogin(login).isPresent()) {
             return false;
         }
 
-        clientRepository.save(new Client(login, password));
+        bankAccountRepository.save(new BankAccount(login, password));
         return true;
     }
 
     public boolean loginUser(String login, String password) {
-        Optional<Client> client = clientRepository.findByLoginAndPassoword(login, password);
+        Optional<BankAccount> client = bankAccountRepository.findByLoginAndPassoword(login, password);
         if (client.isPresent()) {
-            loggedInClient = client.get();
+            loggedInBankAccount = client.get();
             return true;
         }
         return false;
     }
 
     public BigDecimal makeDeposit(BigDecimal amount) {
-        return loggedInClient.makeDeposit(amount);
+        return loggedInBankAccount.makeDeposit(amount);
     }
 
     public BigDecimal makeWithdrawal(BigDecimal amount) {
-        return loggedInClient.makeWithdrawal(amount);
+        return loggedInBankAccount.makeWithdrawal(amount);
     }
 
     public BigDecimal getBalance() {
-        return loggedInClient.getBalance();
+        return loggedInBankAccount.getBalance();
     }
 
-    public Client getLoggedInClient() {
-        return loggedInClient;
+    public BankAccount getLoggedInClient() {
+        return loggedInBankAccount;
     }
 
-    public ClientRepository getClientRepository() {
-        return clientRepository;
+    public BankAccountRepository getClientRepository() {
+        return bankAccountRepository;
     }
 
     public void updateInfo() {
-        clientRepository.update(loggedInClient);
+        bankAccountRepository.update(loggedInBankAccount);
+    }
+
+    public void makeTransfer(BigDecimal amount, String whereTo) {
+        Optional<BankAccount> receiver = bankAccountRepository.findByLogin(whereTo);
+        if (receiver.isPresent()) {
+            loggedInBankAccount.makeWithdrawal(amount);
+            receiver.get().makeDeposit(amount);
+        }
     }
 }

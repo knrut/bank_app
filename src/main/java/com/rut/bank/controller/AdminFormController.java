@@ -1,31 +1,30 @@
 package com.rut.bank.controller;
 
-import com.rut.bank.model.Client;
-import com.rut.bank.repository.ClientRepository;
+import com.rut.bank.model.BankAccount;
+import com.rut.bank.repository.BankAccountRepository;
 import com.rut.bank.table.GenericTableModel;
 import com.rut.bank.view.AdminForm;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.List;
 import java.util.function.Function;
 
 public class AdminFormController {
-    private final ClientRepository repo;
+    private final BankAccountRepository repo;
     private final AdminForm view;
-    private final GenericTableModel<Client> model;
+    private final GenericTableModel<BankAccount> model;
 
-    public AdminFormController(ClientRepository repo) {
+    public AdminFormController(BankAccountRepository repo) {
         this.repo = repo;
 
         var fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        model = new GenericTableModel<Client>(
+        model = new GenericTableModel<BankAccount>(
                 new String[]{"UUID","Login","Balance","Date Created"},
-                Arrays.<Function<Client,Object>>asList(
-                        Client::getID,
-                        Client::getLogin,
-                        Client::getBalance,
+                Arrays.<Function<BankAccount,Object>>asList(
+                        BankAccount::getID,
+                        BankAccount::getLogin,
+                        BankAccount::getBalance,
                         c -> c.getDateCreated().format(fmt)
                 )
         );

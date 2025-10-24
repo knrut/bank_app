@@ -3,6 +3,7 @@ package com.rut.bank.view;
 import com.rut.bank.model.Entity;
 import com.rut.bank.repository.Repository;
 import com.rut.bank.table.GenericTableModel;
+import net.coderazzi.filters.gui.TableFilterHeader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,8 +20,14 @@ public class AdminForm {
         var panel = new JPanel(new BorderLayout(20,20));
         panel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 
-        table = new JTable();                        // model podaje Controller
+        table = new JTable();
+        JScrollPane scrollPane_1 = new JScrollPane();
+        @SuppressWarnings("unused")
+        TableFilterHeader tableFilterHeader = new TableFilterHeader(table);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table.setAutoCreateRowSorter(true);
+        scrollPane_1.setViewportView(table);
 
         buttonLogout = new JButton("Logout");
         var bottom = new JPanel(new FlowLayout(FlowLayout.RIGHT));

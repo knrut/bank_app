@@ -1,14 +1,12 @@
 package com.rut.bank.controller;
 
 import com.rut.bank.model.BankAccountService;
-import com.rut.bank.model.Client;
-import com.rut.bank.model.Entity;
+import com.rut.bank.model.BankAccount;
 import com.rut.bank.util.DataValidator;
 import com.rut.bank.view.UserForm;
 
 import javax.swing.*;
 import java.math.BigDecimal;
-import java.util.UUID;
 
 public class UserFormController {
     private final BankAccountService service;
@@ -26,6 +24,22 @@ public class UserFormController {
         userForm.getButtonWithdraw().addActionListener(e -> onWithdraw());
         userForm.getButtonInfo().addActionListener(e -> onInfo());
         userForm.getButtonLogout().addActionListener(e -> onLogout());
+        userForm.getButtonTransfer().addActionListener(e -> onTransfer());
+    }
+
+    private void onTransfer() {
+        String input_amount = JOptionPane.showInputDialog(userForm.getFrame(), "Enter transfer amount: ");
+        String input_whereto = JOptionPane.showInputDialog(userForm.getFrame(), "Enter whereTo: ");
+        if (DataValidator.isDecimal(input_amount)) {
+            BigDecimal amount = new BigDecimal(input_amount);
+            if (DataValidator.validateWithdrawal(amount, service.getBalance())) {
+                service.makeTransfer(amount, input_whereto);
+                updateBalance();
+                service.updateInfo();
+            } else {
+                JOptionPane.showMessageDialog(userForm.getFrame(), "Incorrect amount");
+            }
+        }
     }
 
     private void onDeposit() {
@@ -63,9 +77,9 @@ public class UserFormController {
     }
 
     private void onInfo() {
-        Client client = service.getLoggedInClient();
-        JOptionPane.showMessageDialog(userForm.getFrame(), "User: " + client.getLogin() + "\n- Account created at: "
-                + client.getDateCreated());
+        BankAccount bankAccount = service.getLoggedInClient();
+        JOptionPane.showMessageDialog(userForm.getFrame(), "User: " + bankAccount.getLogin() + "\n- Account created at: "
+                + bankAccount.getDateCreated());
     }
 
     private void updateBalance() {
