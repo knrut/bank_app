@@ -1,6 +1,7 @@
 package com.rut.bank.model;
 
 import com.rut.bank.repository.BankAccountRepository;
+import com.rut.bank.repository.ClientRepository;
 import com.rut.bank.repository.TransactionRepository;
 
 import java.math.BigDecimal;
@@ -9,11 +10,14 @@ import java.util.Optional;
 public class BankAccountService {
     private final BankAccountRepository bankAccountRepository;
     private final TransactionRepository transactionRepository;
+    private final ClientRepository clientRepository;
     private BankAccount loggedInBankAccount;
 
-    public BankAccountService(BankAccountRepository bankAccountRepository, TransactionRepository transactionRepository) {
+    public BankAccountService(BankAccountRepository bankAccountRepository, TransactionRepository transactionRepository,
+                              ClientRepository clientRepository) {
         this.bankAccountRepository = bankAccountRepository;
         this.transactionRepository = transactionRepository;
+        this.clientRepository = clientRepository;
     }
 
     public boolean registerUser(String login, String password) {
@@ -71,5 +75,11 @@ public class BankAccountService {
             loggedInBankAccount.makeWithdrawal(amount);
             receiver.get().makeDeposit(amount);
         }
+    }
+
+    public void initializeClientProfile(String firstName, String lastName, int age) {
+        Client client = new Client(firstName, lastName, age);
+        client.setAssignedBankAccount(loggedInBankAccount);
+        clientRepository.save(client);
     }
 }

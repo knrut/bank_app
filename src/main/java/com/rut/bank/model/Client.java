@@ -8,11 +8,10 @@ public class Client extends Entity<UUID> {
     private int age;
     private BankAccount assignedBankAccount;
 
-    public Client(String firstName, String lastName, int age, BankAccount assignedBankAccount) {
+    public Client(String firstName, String lastName, int age) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
-        this.assignedBankAccount = assignedBankAccount;
     }
 
     public String getFirstName() {
@@ -29,6 +28,10 @@ public class Client extends Entity<UUID> {
 
     public BankAccount getAssignedBankAccount() {
         return assignedBankAccount;
+    }
+
+    public void setAssignedBankAccount(BankAccount assignedBankAccount) {
+        this.assignedBankAccount = assignedBankAccount;
     }
 }
 
