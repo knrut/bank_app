@@ -1,8 +1,16 @@
 package com.rut.bank.model;
 
-public class Client {
+import java.util.UUID;
+
+public class Client extends Entity<UUID> {
     String firstName;
     String lastName;
     String age;
+
+    public boolean getFirstName() {
+    }
+
+    public String getLastName() {
+    }
 }
 
