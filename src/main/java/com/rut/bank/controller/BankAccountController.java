@@ -3,33 +3,33 @@ package com.rut.bank.controller;
 import com.rut.bank.model.BankAccountService;
 import com.rut.bank.model.BankAccount;
 import com.rut.bank.util.DataValidator;
-import com.rut.bank.view.UserForm;
+import com.rut.bank.view.BankAccountForm;
 
 import javax.swing.*;
 import java.math.BigDecimal;
 
-public class UserFormController {
+public class BankAccountController {
     private final BankAccountService service;
-    private final UserForm userForm;
+    private final BankAccountForm bankAccountForm;
     
-    public UserFormController(BankAccountService service) {
+    public BankAccountController(BankAccountService service) {
         this.service = service;
-        this.userForm = new UserForm(this::onLogout);
+        this.bankAccountForm = new BankAccountForm(this::onLogout);
         updateBalance();
         control();
     }
 
     private void control() {
-        userForm.getButtonDeposit().addActionListener(e -> onDeposit());
-        userForm.getButtonWithdraw().addActionListener(e -> onWithdraw());
-        userForm.getButtonInfo().addActionListener(e -> onInfo());
-        userForm.getButtonLogout().addActionListener(e -> onLogout());
-        userForm.getButtonTransfer().addActionListener(e -> onTransfer());
+        bankAccountForm.getButtonDeposit().addActionListener(e -> onDeposit());
+        bankAccountForm.getButtonWithdraw().addActionListener(e -> onWithdraw());
+        bankAccountForm.getButtonInfo().addActionListener(e -> onInfo());
+        bankAccountForm.getButtonLogout().addActionListener(e -> onLogout());
+        bankAccountForm.getButtonTransfer().addActionListener(e -> onTransfer());
     }
 
     private void onTransfer() {
-        String input_amount = JOptionPane.showInputDialog(userForm.getFrame(), "Enter transfer amount: ");
-        String input_whereto = JOptionPane.showInputDialog(userForm.getFrame(), "Enter whereTo: ");
+        String input_amount = JOptionPane.showInputDialog(bankAccountForm.getFrame(), "Enter transfer amount: ");
+        String input_whereto = JOptionPane.showInputDialog(bankAccountForm.getFrame(), "Enter whereTo: ");
         if (DataValidator.isDecimal(input_amount)) {
             BigDecimal amount = new BigDecimal(input_amount);
             if (DataValidator.validateWithdrawal(amount, service.getBalance())) {
@@ -37,13 +37,13 @@ public class UserFormController {
                 updateBalance();
                 service.updateInfo();
             } else {
-                JOptionPane.showMessageDialog(userForm.getFrame(), "Incorrect amount");
+                JOptionPane.showMessageDialog(bankAccountForm.getFrame(), "Incorrect amount");
             }
         }
     }
 
     private void onDeposit() {
-        String input = JOptionPane.showInputDialog(userForm.getFrame(), "Enter deposit amount:");
+        String input = JOptionPane.showInputDialog(bankAccountForm.getFrame(), "Enter deposit amount:");
         if (DataValidator.isDecimal(input)) {
             BigDecimal amount = new BigDecimal(input);
             if (DataValidator.validateDeposit(amount)) {
@@ -51,13 +51,13 @@ public class UserFormController {
                 updateBalance();
                 service.updateInfo();
             } else {
-                JOptionPane.showMessageDialog(userForm.getFrame(), "Incorrect amount");
+                JOptionPane.showMessageDialog(bankAccountForm.getFrame(), "Incorrect amount");
             }
         }
     }
 
     private void onWithdraw() {
-        String input = JOptionPane.showInputDialog(userForm.getFrame(), "Enter withdrawal amount:");
+        String input = JOptionPane.showInputDialog(bankAccountForm.getFrame(), "Enter withdrawal amount:");
         if (DataValidator.isDecimal(input)) {
             BigDecimal amount = new BigDecimal(input);
             if (DataValidator.validateWithdrawal(amount, service.getBalance())) {
@@ -65,24 +65,24 @@ public class UserFormController {
                 updateBalance();
                 service.updateInfo();
             } else {
-                JOptionPane.showMessageDialog(userForm.getFrame(), "Exceeded withdrawal funds");
+                JOptionPane.showMessageDialog(bankAccountForm.getFrame(), "Exceeded withdrawal funds");
             }
         }
     }
 
     private void onLogout() {
-        JOptionPane.showMessageDialog(userForm.getFrame(), "Logged out");
-        userForm.getFrame().dispose();
+        JOptionPane.showMessageDialog(bankAccountForm.getFrame(), "Logged out");
+        bankAccountForm.getFrame().dispose();
         new LoginFormController(service);
     }
 
     private void onInfo() {
         BankAccount bankAccount = service.getLoggedInClient();
-        JOptionPane.showMessageDialog(userForm.getFrame(), "User: " + bankAccount.getLogin() + "\n- Account created at: "
+        JOptionPane.showMessageDialog(bankAccountForm.getFrame(), "User: " + bankAccount.getLogin() + "\n- Account created at: "
                 + bankAccount.getDateCreated());
     }
 
     private void updateBalance() {
-        userForm.getLabelBalance().setText("Balance: " + service.getBalance() + "$");
+        bankAccountForm.getLabelBalance().setText("Balance: " + service.getBalance() + "$");
     }
 }

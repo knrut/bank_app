@@ -52,7 +52,7 @@ public class LoginFormController {
             loginForm.getFrame().dispose();
             switch (service.getLoggedInClient().getRole()) {
                 case ADMIN -> new AdminFormController(service, service.getClientRepository(), service.getTransactionRepository());
-                case USER -> new UserFormController(service);
+                case USER -> new BankAccountController(service);
             }
         } else {
             JOptionPane.showMessageDialog(loginForm.getFrame(), "Incorrect login or password");

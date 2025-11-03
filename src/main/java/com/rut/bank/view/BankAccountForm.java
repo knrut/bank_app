@@ -3,7 +3,7 @@ package com.rut.bank.view;
 import javax.swing.*;
 import java.awt.*;
 
-public class UserForm {
+public class BankAccountForm {
     private JPanel panel;
     private JLabel labelBalance;
     private JButton buttonDeposit;
@@ -13,7 +13,7 @@ public class UserForm {
     private JButton buttonLogout;
     private JFrame frame;
 
-    public UserForm(Runnable onCloseCallback) {
+    public BankAccountForm(Runnable onCloseCallback) {
         // główny panel z marginesem
         panel = new JPanel(new BorderLayout(20, 20));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));

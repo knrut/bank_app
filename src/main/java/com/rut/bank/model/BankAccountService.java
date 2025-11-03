@@ -77,9 +77,8 @@ public class BankAccountService {
         }
     }
 
-    public void initializeClientProfile(String firstName, String lastName, int age) {
-        Client client = new Client(firstName, lastName, age);
-        client.setAssignedBankAccount(loggedInBankAccount);
-        clientRepository.save(client);
-    }
+//    public void initializeClientProfile(String firstName, String lastName, int age) {
+//        Client client = new Client(firstName, lastName, age);
+//        clientRepository.save(client);
+//    }
 }

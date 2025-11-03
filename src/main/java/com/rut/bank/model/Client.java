@@ -5,13 +5,15 @@ import java.util.UUID;
 public class Client extends Entity<UUID> {
     private String firstName;
     private String lastName;
-    private int age;
-    private BankAccount assignedBankAccount;
+    private int dateOfBirth;
+    private Enum nationality;
 
-    public Client(String firstName, String lastName, int age) {
+    public Client(String firstName, String lastName, int dateOfBirth, Enum nationality) {
+        setID(UUID.randomUUID());
         this.firstName = firstName;
         this.lastName = lastName;
-        this.age = age;
+        this.dateOfBirth = dateOfBirth;
+        this.nationality = nationality;
     }
 
     public String getFirstName() {
@@ -22,16 +24,9 @@ public class Client extends Entity<UUID> {
         return lastName;
     }
 
-    public int getAge() {
-        return age;
+    public int getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public BankAccount getAssignedBankAccount() {
-        return assignedBankAccount;
-    }
-
-    public void setAssignedBankAccount(BankAccount assignedBankAccount) {
-        this.assignedBankAccount = assignedBankAccount;
-    }
 }
 
