@@ -6,9 +6,9 @@ public class Client extends Entity<UUID> {
     private String firstName;
     private String lastName;
     private int dateOfBirth;
-    private Enum nationality;
+    private String nationality;
 
-    public Client(String firstName, String lastName, int dateOfBirth, Enum nationality) {
+    public Client(String firstName, String lastName, int dateOfBirth, String nationality) {
         setID(UUID.randomUUID());
         this.firstName = firstName;
         this.lastName = lastName;
@@ -26,6 +26,10 @@ public class Client extends Entity<UUID> {
 
     public int getDateOfBirth() {
         return dateOfBirth;
+    }
+
+    public String getNationality() {
+        return nationality;
     }
 
 }
