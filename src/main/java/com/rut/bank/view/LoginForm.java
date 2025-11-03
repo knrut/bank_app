@@ -9,6 +9,7 @@ public class LoginForm {
     private JPasswordField textFieldPassword;
     private JButton buttonLogin;
     private JButton buttonRegister;
+    private JButton buttonCreateProfile;
     private JFrame frame;
 
     public LoginForm() {
@@ -67,10 +68,21 @@ public class LoginForm {
         buttonRegister.setFont(biggerFont);
         panel.add(buttonRegister, c);
 
+        // Create Client Profile button
+        c.gridx = 0; c.gridy = 4;
+        c.gridwidth = 2;
+        c.weightx = 1;
+        buttonCreateProfile = new JButton("Create Client Profile");
+        buttonCreateProfile.setFont(biggerFont);
+        buttonCreateProfile.setForeground(new Color(0, 102, 204));
+        panel.add(buttonCreateProfile, c);
+
         frame.setContentPane(panel);
         frame.setSize(800, 400);  // duże okno
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
+
     }
 
     public JFrame getFrame() { return frame; }
