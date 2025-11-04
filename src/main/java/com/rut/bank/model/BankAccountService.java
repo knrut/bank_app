@@ -5,6 +5,7 @@ import com.rut.bank.repository.ClientRepository;
 import com.rut.bank.repository.TransactionRepository;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Optional;
 
 public class BankAccountService {
@@ -75,6 +76,10 @@ public class BankAccountService {
             loggedInBankAccount.makeWithdrawal(amount);
             receiver.get().makeDeposit(amount);
         }
+    }
+
+    public void createClientProfile(String nationalId, String firstName, String lastName, LocalDate dateOfBirth, Nationality nationality) {
+        clientRepository.save(new Client(nationalId, firstName, lastName, dateOfBirth, nationality));
     }
 
 //    public void initializeClientProfile(String firstName, String lastName, int age) {

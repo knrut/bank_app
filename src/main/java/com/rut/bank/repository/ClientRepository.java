@@ -1,6 +1,7 @@
 package com.rut.bank.repository;
 
 import com.rut.bank.model.Client;
+import com.rut.bank.model.Nationality;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -9,6 +10,13 @@ public class ClientRepository extends InFileRepository<UUID, Client> {
 
     public ClientRepository(String filePath) {
         super(filePath);
+    }
+
+    public Optional<Client> findByNationalId(String nationalId) {
+        return findALL()
+                .stream()
+                .filter(c -> c.getNationalId().equalsIgnoreCase(nationalId))
+                .findFirst();
     }
 
     public Optional<Client> findByFirstName(String firstName) {
@@ -25,5 +33,8 @@ public class ClientRepository extends InFileRepository<UUID, Client> {
                 .findFirst();
     }
 
+    public Optional<Client> findByNationality(Nationality nationality) {
+        return findALL().stream().filter(c -> c.getNationality() == nationality).findFirst();
+    }
 
 }

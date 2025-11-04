@@ -2,6 +2,8 @@ package com.rut.bank.model;
 
 import com.rut.bank.repository.ClientRepository;
 
+import java.time.LocalDate;
+
 public class ClientService {
     private final ClientRepository clientRepository;
 
@@ -9,8 +11,8 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
-    public void createClientProfile(String firstName, String lastName, int age, String nationality) {
-        clientRepository.save(new Client(firstName, lastName, age, nationality));
+    public void createClientProfile(String pesel, String firstName, String lastName, LocalDate age, Nationality nationality) {
+        clientRepository.save(new Client(pesel, firstName, lastName, age, nationality));
     }
 
 

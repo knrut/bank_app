@@ -90,4 +90,5 @@ public class LoginForm {
     public JPasswordField getTextFieldPassword() { return textFieldPassword; }
     public JButton getButtonLogin() { return buttonLogin; }
     public JButton getButtonRegister() { return buttonRegister; }
+    public JButton getButtonCreateProfile() { return buttonCreateProfile; }
 }

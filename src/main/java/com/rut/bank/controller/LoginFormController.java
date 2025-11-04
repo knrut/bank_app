@@ -1,6 +1,7 @@
 package com.rut.bank.controller;
 
 import com.rut.bank.model.BankAccountService;
+import com.rut.bank.model.ClientService;
 import com.rut.bank.util.DataValidator;
 import com.rut.bank.view.LoginForm;
 
@@ -19,6 +20,7 @@ public class LoginFormController {
     private void control() {
         loginForm.getButtonRegister().addActionListener(e -> onRegister());
         loginForm.getButtonLogin().addActionListener(e -> onLogin());
+        loginForm.getButtonCreateProfile().addActionListener(e -> onCreateClient());
     }
 
     private void onRegister() {
@@ -59,5 +61,10 @@ public class LoginFormController {
             loginForm.getTextFieldLogin().setText("");
             loginForm.getTextFieldPassword().setText("");
         }
+    }
+
+    private void onCreateClient() {
+        loginForm.getFrame().dispose();
+        new ClientFormController(service);
     }
 }
