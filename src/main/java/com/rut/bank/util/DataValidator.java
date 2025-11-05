@@ -1,6 +1,7 @@
 package com.rut.bank.util;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public class DataValidator {
     public static boolean validateLogin(String login) { return login.matches("[a-zA-Z0-9._]{3,20}"); }
@@ -26,4 +27,28 @@ public class DataValidator {
             return false;
         }
     }
+
+    public static boolean validateNationalId(String id) {
+        return id.matches("^[0-9]{4,10}$");
+    }
+
+    public static boolean validateFirstName(String name) {
+        return name.matches("^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]{1,30}$");
+    }
+
+    public static boolean validateLastName(String name) {
+        return name.matches("^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]{1,30}([-\\s][A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]{1,30})?$");
+    }
+
+    public static boolean validateDithOfBirth(LocalDate dateOfBirth) {
+        if (dateOfBirth == null) return false;
+
+        LocalDate today = LocalDate.now();
+        LocalDate earliest = today.minusYears(120);
+        LocalDate latest = today;
+
+        return (dateOfBirth.isAfter(earliest) || dateOfBirth.isEqual(earliest))
+        && (dateOfBirth.isBefore(latest) || dateOfBirth.isEqual(latest));
+    }
+
 }

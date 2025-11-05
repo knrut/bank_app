@@ -78,8 +78,13 @@ public class BankAccountService {
         }
     }
 
-    public void createClientProfile(String nationalId, String firstName, String lastName, LocalDate dateOfBirth, Nationality nationality) {
+    public boolean createClientProfile(String nationalId, String firstName, String lastName, LocalDate dateOfBirth, Nationality nationality) {
+        if (clientRepository.findByNationalId(nationalId).isPresent() && clientRepository.findByNationality(nationality).isPresent())
+        {
+            return false;
+        }
         clientRepository.save(new Client(nationalId, firstName, lastName, dateOfBirth, nationality));
+        return true;
     }
 
 //    public void initializeClientProfile(String firstName, String lastName, int age) {
