@@ -37,4 +37,10 @@ public class ClientRepository extends InFileRepository<UUID, Client> {
         return findALL().stream().filter(c -> c.getNationality() == nationality).findFirst();
     }
 
+    public Optional<Client> findMatchingClient(String nationalId, String firstName, String lastName) {
+        return findALL().stream().filter(client -> client.getNationalId().equalsIgnoreCase(nationalId)
+                && client.getFirstName().equalsIgnoreCase(firstName) &&
+                client.getLastName().equalsIgnoreCase(lastName)).findFirst();
+    }
+
 }

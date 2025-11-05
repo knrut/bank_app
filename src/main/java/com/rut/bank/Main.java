@@ -1,17 +1,32 @@
 package com.rut.bank;
-
 import com.rut.bank.controller.LoginFormController;
-import com.rut.bank.model.Service;
+import com.rut.bank.model.*;
 import com.rut.bank.repository.BankAccountRepository;
 import com.rut.bank.repository.ClientRepository;
 import com.rut.bank.repository.TransactionRepository;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) {
-        //BankAccount admin = new BankAccount("admin", "admin", new BigDecimal(0), Role.ADMIN);
-        BankAccountRepository bankAccountRepository = new BankAccountRepository("/Users/kn/IdeaProjects/bank-app/src/main/java/com/rut/bank/bankaccountRepo.txt");
+//        Client adminClient = new Client(
+//                "90051212345",
+//                "Jan",
+//                "Kowalski",
+//                LocalDate.of(1990, 5, 12),
+//                Nationality.POLAND);
+//        BankAccount admin = new BankAccount(
+//                "admin",
+//                "admin",
+//                BigDecimal.valueOf(1000.00),
+//                Role.ADMIN,
+//                "90051212345");
+
+        BankAccountRepository bankAccountRepository = new BankAccountRepository("/Users/kn/IdeaProjects/bank-app/src/main/java/com/rut/bank/bankaccounRepo.txt");
         TransactionRepository transactionRepository = new TransactionRepository("/Users/kn/IdeaProjects/bank-app/src/main/java/com/rut/bank/transactionRepo.txt");
         ClientRepository clientRepository = new ClientRepository("/Users/kn/IdeaProjects/bank-app/src/main/java/com/rut/bank/clientRepo.txt");
+//        clientRepository.save(adminClient);
+//        bankAccountRepository.save(admin);
         Service service = new Service(bankAccountRepository, transactionRepository, clientRepository);
         LoginFormController controller = new LoginFormController(service);
     }

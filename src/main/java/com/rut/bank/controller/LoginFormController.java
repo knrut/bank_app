@@ -23,26 +23,31 @@ public class LoginFormController {
     }
 
     private void onRegister() {
-        String login = loginForm.getTextFieldLogin().getText();
-        String password = new String(loginForm.getTextFieldPassword().getPassword());
-
-        if (DataValidator.validateLogin(login) && DataValidator.validatePassword(password)) {
-            if (service.registerUser(login, password)) {
-                JOptionPane.showMessageDialog(loginForm.getFrame(), "User registered: " + login);
-                loginForm.getTextFieldLogin().setText("");
-                loginForm.getTextFieldPassword().setText("");
-            } else {
-                JOptionPane.showMessageDialog(loginForm.getFrame(), "Login already taken!");
-                loginForm.getTextFieldLogin().setText("");
-                loginForm.getTextFieldPassword().setText("");
-            }
-
-        } else {
-            JOptionPane.showMessageDialog(loginForm.getFrame(), "Login or password doesn't meet the requirements");
-            loginForm.getTextFieldLogin().setText("");
-            loginForm.getTextFieldPassword().setText("");
-        }
+        loginForm.getFrame().dispose();
+        new RegisterClientFormController(service);
     }
+
+//    private void onRegister() {
+//        String login = loginForm.getTextFieldLogin().getText();
+//        String password = new String(loginForm.getTextFieldPassword().getPassword());
+//
+//        if (DataValidator.validateLogin(login) && DataValidator.validatePassword(password)) {
+//            if (service.registerUser(login, password)) {
+//                JOptionPane.showMessageDialog(loginForm.getFrame(), "User registered: " + login);
+//                loginForm.getTextFieldLogin().setText("");
+//                loginForm.getTextFieldPassword().setText("");
+//            } else {
+//                JOptionPane.showMessageDialog(loginForm.getFrame(), "Login already taken!");
+//                loginForm.getTextFieldLogin().setText("");
+//                loginForm.getTextFieldPassword().setText("");
+//            }
+//
+//        } else {
+//            JOptionPane.showMessageDialog(loginForm.getFrame(), "Login or password doesn't meet the requirements");
+//            loginForm.getTextFieldLogin().setText("");
+//            loginForm.getTextFieldPassword().setText("");
+//        }
+//    }
 
     private void onLogin() {
         String login = loginForm.getTextFieldLogin().getText();

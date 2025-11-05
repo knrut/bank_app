@@ -21,13 +21,20 @@ public class Service {
         this.clientRepository = clientRepository;
     }
 
-    public boolean registerUser(String login, String password) {
-        if (bankAccountRepository.findByLogin(login).isPresent()) {
+    public boolean registerUser(String login, String password, String nationalId) {
+        if (bankAccountRepository.findByLogin(login).isPresent() || clientRepository.findByNationalId(nationalId).isPresent()) {
             return false;
         }
 
-        bankAccountRepository.save(new BankAccount(login, password));
+        bankAccountRepository.save(new BankAccount(login, password, nationalId));
         return true;
+    }
+
+    public boolean isMatchClient(String nationalId, String firstName, String lastName) {
+        if (clientRepository.findMatchingClient(nationalId, firstName, lastName).isPresent()) {
+            return true;
+        }
+        return false;
     }
 
     public boolean loginUser(String login, String password) {
@@ -87,8 +94,4 @@ public class Service {
         return true;
     }
 
-//    public void initializeClientProfile(String firstName, String lastName, int age) {
-//        Client client = new Client(firstName, lastName, age);
-//        clientRepository.save(client);
-//    }
 }
