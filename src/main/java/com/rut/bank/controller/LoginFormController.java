@@ -1,17 +1,16 @@
 package com.rut.bank.controller;
 
-import com.rut.bank.model.BankAccountService;
-import com.rut.bank.model.ClientService;
+import com.rut.bank.model.Service;
 import com.rut.bank.util.DataValidator;
 import com.rut.bank.view.LoginForm;
 
 import javax.swing.*;
 
 public class LoginFormController {
-    private final BankAccountService service;
+    private final Service service;
     private final LoginForm loginForm;
     
-    public LoginFormController(BankAccountService service) {
+    public LoginFormController(Service service) {
         this.service = service;
         this.loginForm = new LoginForm();
         control();
@@ -65,6 +64,6 @@ public class LoginFormController {
 
     private void onCreateClient() {
         loginForm.getFrame().dispose();
-        new ClientFormController(service);
+        new CreateClientFormController(service);
     }
 }

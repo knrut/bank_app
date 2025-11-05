@@ -1,6 +1,6 @@
 package com.rut.bank.controller;
 
-import com.rut.bank.model.BankAccountService;
+import com.rut.bank.model.Service;
 import com.rut.bank.model.BankAccount;
 import com.rut.bank.util.DataValidator;
 import com.rut.bank.view.BankAccountForm;
@@ -9,10 +9,10 @@ import javax.swing.*;
 import java.math.BigDecimal;
 
 public class BankAccountController {
-    private final BankAccountService service;
+    private final Service service;
     private final BankAccountForm bankAccountForm;
     
-    public BankAccountController(BankAccountService service) {
+    public BankAccountController(Service service) {
         this.service = service;
         this.bankAccountForm = new BankAccountForm(this::onLogout);
         updateBalance();

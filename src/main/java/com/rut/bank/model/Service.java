@@ -8,14 +8,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Optional;
 
-public class BankAccountService {
+public class Service {
     private final BankAccountRepository bankAccountRepository;
     private final TransactionRepository transactionRepository;
     private final ClientRepository clientRepository;
     private BankAccount loggedInBankAccount;
 
-    public BankAccountService(BankAccountRepository bankAccountRepository, TransactionRepository transactionRepository,
-                              ClientRepository clientRepository) {
+    public Service(BankAccountRepository bankAccountRepository, TransactionRepository transactionRepository,
+                   ClientRepository clientRepository) {
         this.bankAccountRepository = bankAccountRepository;
         this.transactionRepository = transactionRepository;
         this.clientRepository = clientRepository;

@@ -11,7 +11,7 @@ import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ClientForm {
+public class CreateClientForm {
 
     private final JFrame frame;
     private final JPanel panel;
@@ -25,7 +25,7 @@ public class ClientForm {
     private final JButton createButton;
     private final JButton backButton;
 
-    public ClientForm(Nationality[] nationalities, Runnable onCloseCallback) {
+    public CreateClientForm(Nationality[] nationalities, Runnable onCloseCallback) {
         frame = new JFrame("Create Client Profile");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(520, 520);
@@ -140,7 +140,7 @@ public class ClientForm {
     }
 
     // Konstruktor uproszczony
-    public ClientForm(Runnable onCloseCallback) {
+    public CreateClientForm(Runnable onCloseCallback) {
         this(Nationality.values(), onCloseCallback);
     }
 

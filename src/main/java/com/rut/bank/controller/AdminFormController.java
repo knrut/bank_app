@@ -1,13 +1,12 @@
 package com.rut.bank.controller;
 
 import com.rut.bank.model.BankAccount;
-import com.rut.bank.model.BankAccountService;
+import com.rut.bank.model.Service;
 import com.rut.bank.model.Transaction;
 import com.rut.bank.repository.BankAccountRepository;
 import com.rut.bank.repository.TransactionRepository;
 import com.rut.bank.table.GenericTableModel;
 import com.rut.bank.view.AdminForm;
-import com.rut.bank.view.LoginForm;
 
 import javax.swing.*;
 import java.time.format.DateTimeFormatter;
@@ -15,7 +14,7 @@ import java.util.Arrays;
 import java.util.function.Function;
 
 public class AdminFormController {
-    private final BankAccountService service;
+    private final Service service;
     private final BankAccountRepository bankAccountRepository;
     private final TransactionRepository transactionRepository;
     private final AdminForm adminForm;
@@ -24,7 +23,7 @@ public class AdminFormController {
 
     private boolean showingAccounts = true;
 
-    public AdminFormController(BankAccountService service, BankAccountRepository bankAccountRepository, TransactionRepository transactionRepository) {
+    public AdminFormController(Service service, BankAccountRepository bankAccountRepository, TransactionRepository transactionRepository) {
         this.service = service;
         this.bankAccountRepository = bankAccountRepository;
         this.transactionRepository = transactionRepository;
