@@ -34,6 +34,8 @@ public class RegisterClientFormController {
         String lastName = registerClientForm.getLastName();
         String login = registerClientForm.getLogin();
         String password = new String(registerClientForm.getPassword());
+
+
         if (DataValidator.validateNationalId(nationalId) && DataValidator.validateFirstName(firstName)
                 && DataValidator.validateLastName(lastName) && DataValidator.validateLogin(login)
                 && DataValidator.validatePassword(password)) {

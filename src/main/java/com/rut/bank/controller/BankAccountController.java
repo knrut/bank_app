@@ -22,24 +22,9 @@ public class BankAccountController {
     private void control() {
         bankAccountForm.getButtonDeposit().addActionListener(e -> onDeposit());
         bankAccountForm.getButtonWithdraw().addActionListener(e -> onWithdraw());
+        bankAccountForm.getButtonTransfer().addActionListener(e -> onTransfer());
         bankAccountForm.getButtonInfo().addActionListener(e -> onInfo());
         bankAccountForm.getButtonLogout().addActionListener(e -> onLogout());
-        bankAccountForm.getButtonTransfer().addActionListener(e -> onTransfer());
-    }
-
-    private void onTransfer() {
-        String input_amount = JOptionPane.showInputDialog(bankAccountForm.getFrame(), "Enter transfer amount: ");
-        String input_whereto = JOptionPane.showInputDialog(bankAccountForm.getFrame(), "Enter whereTo: ");
-        if (DataValidator.isDecimal(input_amount)) {
-            BigDecimal amount = new BigDecimal(input_amount);
-            if (DataValidator.validateWithdrawal(amount, service.getBalance())) {
-                service.makeTransfer(amount, input_whereto);
-                updateBalance();
-                service.updateInfo();
-            } else {
-                JOptionPane.showMessageDialog(bankAccountForm.getFrame(), "Incorrect amount");
-            }
-        }
     }
 
     private void onDeposit() {
@@ -70,10 +55,23 @@ public class BankAccountController {
         }
     }
 
-    private void onLogout() {
-        JOptionPane.showMessageDialog(bankAccountForm.getFrame(), "Logged out");
-        bankAccountForm.getFrame().dispose();
-        new LoginFormController(service);
+    private void onTransfer() {
+        String input_amount = JOptionPane.showInputDialog(bankAccountForm.getFrame(), "Enter transfer amount: ");
+        String input_whereto = JOptionPane.showInputDialog(bankAccountForm.getFrame(), "Enter whereTo: ");
+        if (DataValidator.isDecimal(input_amount)) {
+            BigDecimal amount = new BigDecimal(input_amount);
+            if (DataValidator.validateWithdrawal(amount, service.getBalance())) {
+                service.makeTransfer(amount, input_whereto);
+                updateBalance();
+                service.updateInfo();
+            } else {
+                JOptionPane.showMessageDialog(bankAccountForm.getFrame(), "Incorrect amount");
+            }
+        }
+    }
+
+    private void updateBalance() {
+        bankAccountForm.getLabelBalance().setText("Balance: " + service.getBalance() + "$");
     }
 
     private void onInfo() {
@@ -82,7 +80,10 @@ public class BankAccountController {
                 + bankAccount.getDateCreated());
     }
 
-    private void updateBalance() {
-        bankAccountForm.getLabelBalance().setText("Balance: " + service.getBalance() + "$");
+    private void onLogout() {
+        JOptionPane.showMessageDialog(bankAccountForm.getFrame(), "Logged out");
+        bankAccountForm.getFrame().dispose();
+        new LoginFormController(service);
     }
+
 }
