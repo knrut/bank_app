@@ -36,6 +36,7 @@ public class BankAccount extends Entity<UUID> implements Serializable {
     public BigDecimal getBalance() { return balance; }
     public LocalDateTime getDateCreated() { return  dataCreated; }
     public Role getRole() { return role; }
+    public Object getNationalId() { return nationalId; }
 
 
     public BigDecimal makeDeposit(BigDecimal amount) {

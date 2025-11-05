@@ -22,7 +22,7 @@ public class Service {
     }
 
     public boolean registerUser(String login, String password, String nationalId) {
-        if (bankAccountRepository.findByLogin(login).isPresent() || clientRepository.findByNationalId(nationalId).isPresent()) {
+        if (bankAccountRepository.findByLogin(login).isPresent()) {
             return false;
         }
 
@@ -38,9 +38,9 @@ public class Service {
     }
 
     public boolean loginUser(String login, String password) {
-        Optional<BankAccount> client = bankAccountRepository.findByLoginAndPassoword(login, password);
-        if (client.isPresent()) {
-            loggedInBankAccount = client.get();
+        Optional<BankAccount> bankAccount = bankAccountRepository.findByLoginAndPassoword(login, password);
+        if (bankAccount.isPresent()) {
+            loggedInBankAccount = bankAccount.get();
             return true;
         }
         return false;
@@ -64,12 +64,17 @@ public class Service {
         return loggedInBankAccount;
     }
 
-    public BankAccountRepository getClientRepository() {
+
+    public BankAccountRepository getBankAccountRepository() {
         return bankAccountRepository;
     }
 
     public TransactionRepository getTransactionRepository() {
         return transactionRepository;
+    }
+
+    public ClientRepository getClientRepository() {
+        return clientRepository;
     }
 
     public void updateInfo() {

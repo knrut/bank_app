@@ -1,7 +1,6 @@
 package com.rut.bank.controller;
 
 import com.rut.bank.model.Service;
-import com.rut.bank.util.DataValidator;
 import com.rut.bank.view.LoginForm;
 
 import javax.swing.*;
@@ -57,7 +56,8 @@ public class LoginFormController {
             JOptionPane.showMessageDialog(loginForm.getFrame(), "Logged in as: " + login);
             loginForm.getFrame().dispose();
             switch (service.getLoggedInClient().getRole()) {
-                case ADMIN -> new AdminFormController(service, service.getClientRepository(), service.getTransactionRepository());
+                case ADMIN -> new AdminFormController(service, service.getBankAccountRepository(), service.getTransactionRepository()
+                        , service.getClientRepository());
                 case USER -> new BankAccountController(service);
             }
         } else {

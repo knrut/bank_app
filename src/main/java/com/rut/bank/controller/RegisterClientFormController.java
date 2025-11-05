@@ -45,13 +45,23 @@ public class RegisterClientFormController {
                 }
                 else {
                     JOptionPane.showMessageDialog(registerClientForm.getFrame(), "Login already taken!");
+                    resetFields();
                 }
             } else {
                 JOptionPane.showMessageDialog(registerClientForm.getFrame(), "No Client found with the given data");
+                resetFields();
             }
         }
         else {
             JOptionPane.showMessageDialog(registerClientForm.getFrame(), "Invalid Data Format");
+            resetFields();
         }
+    }
+    private void resetFields() {
+        registerClientForm.getNationalIdField().setText("");
+        registerClientForm.getFirstNameField().setText("");
+        registerClientForm.getLastNameField().setText("");
+        registerClientForm.getLoginField().setText("");
+        registerClientForm.getPasswordField().setText("");
     }
 }
