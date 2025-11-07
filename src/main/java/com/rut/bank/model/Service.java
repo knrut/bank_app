@@ -91,7 +91,7 @@ public class Service {
     }
 
     public boolean createClientProfile(String nationalId, String firstName, String lastName, LocalDate dateOfBirth, Nationality nationality) {
-        if (clientRepository.findByNationalId(nationalId).isPresent() && clientRepository.findByNationality(nationality).isPresent())
+        if (clientRepository.findByNationalId(nationalId).isPresent())
         {
             return false;
         }

@@ -46,7 +46,7 @@ public class RegisterClientFormController {
             return;
         }
 
-        if (service.registerUser(nationalId, login, password)) {
+        if (service.registerUser(login, password, nationalId)) {
             showMessage(
                     "Client registered successfully:\n" +
                             "National ID: " + nationalId + "\n" +

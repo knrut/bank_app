@@ -70,26 +70,26 @@ public class BankAccountController {
     }
 
     private void onTransfer() {
-        String input_whereto = getInput("Enter the recipient: ");
-        if (!service.doesBankAccountExist(input_whereto)) {
+        String inputWhereTo = getInput("Enter the recipient: ");
+        if (!service.doesBankAccountExist(inputWhereTo)) {
             showMessage("The recipient does not exist");
             return;
         }
 
-        String input_amount = getInput("Enter transfer amount: ");
-        if (!DataValidator.isDecimal(input_amount)) {
+        String inputAmount = getInput("Enter transfer amount: ");
+        if (!DataValidator.isDecimal(inputAmount)) {
             showMessage("Please enter a valid amount");
             return;
         }
 
-        BigDecimal amount = new BigDecimal(input_amount.trim());
+        BigDecimal amount = new BigDecimal(inputAmount.trim());
 
         if (!DataValidator.validateWithdrawal(amount, service.getBalance())) {
             showMessage("Exceeded transfer funds");
             return;
         }
 
-        service.makeTransfer(amount, input_whereto);
+        service.makeTransfer(amount, inputWhereTo);
         service.updateInfo();
         updateBalance();
 
