@@ -28,6 +28,7 @@ public class Main {
         clientRepository.save(adminClient);
         bankAccountRepository.save(admin);
         Service service = new Service(bankAccountRepository, transactionRepository, clientRepository);
+        service.setRememberMe(false);
         LoginFormController controller = new LoginFormController(service);
     }
 }

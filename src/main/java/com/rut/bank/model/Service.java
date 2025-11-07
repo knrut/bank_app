@@ -13,6 +13,7 @@ public class Service {
     private final TransactionRepository transactionRepository;
     private final ClientRepository clientRepository;
     private BankAccount loggedInBankAccount;
+    private boolean rememberMe;
 
     public Service(BankAccountRepository bankAccountRepository, TransactionRepository transactionRepository,
                    ClientRepository clientRepository) {
@@ -101,6 +102,14 @@ public class Service {
 
     public boolean doesBankAccountExist(String login) {
         return bankAccountRepository.findByLogin(login).isPresent();
+    }
+
+    public boolean getRememberMe() {
+        return rememberMe;
+    }
+
+    public void setRememberMe(boolean rememberMe) {
+        this.rememberMe = rememberMe;
     }
 
 }

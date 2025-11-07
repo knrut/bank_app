@@ -13,6 +13,7 @@ public class LoginFormController {
         this.service = service;
         this.loginForm = new LoginForm();
         control();
+        rememberMe();
     }
 
     private void control() {
@@ -61,5 +62,20 @@ public class LoginFormController {
 
     private void disposeWindow() {
         loginForm.getFrame().dispose();
+    }
+
+    private void rememberMe() {
+        if (service.getRememberMe()) {
+            fillLoginAndPassword();
+        }
+    }
+
+    private void fillLoginAndPassword() {
+        loginForm.getTextFieldLogin().setText("Login");
+        loginForm.getTextFieldPassword().setText("password");
+    }
+
+    private void saveLoginAndPasswordIntoFile() {
+
     }
 }
