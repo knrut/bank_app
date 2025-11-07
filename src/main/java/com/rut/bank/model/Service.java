@@ -30,7 +30,7 @@ public class Service {
         return true;
     }
 
-    public boolean isMatchClient(String nationalId, String firstName, String lastName) {
+    public boolean doesClientDataMatch(String nationalId, String firstName, String lastName) {
         if (clientRepository.findMatchingClient(nationalId, firstName, lastName).isPresent()) {
             return true;
         }

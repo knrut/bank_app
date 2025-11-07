@@ -26,27 +26,40 @@ public class LoginFormController {
         String password = new String(loginForm.getTextFieldPassword().getPassword());
 
         if (service.loginUser(login, password)) {
-            JOptionPane.showMessageDialog(loginForm.getFrame(), "Logged in as: " + login);
-            loginForm.getFrame().dispose();
-            switch (service.getLoggedInClient().getRole()) {
+            var role = service.getLoggedInClient().getRole();
+            showMessage("Logged in as: " + login);
+            disposeWindow();
+            switch (role) {
                 case ADMIN -> new AdminFormController(service, service.getBankAccountRepository(),
                         service.getTransactionRepository(), service.getClientRepository());
                 case USER -> new BankAccountController(service);
             }
         } else {
-            JOptionPane.showMessageDialog(loginForm.getFrame(), "Incorrect login or password");
-            loginForm.getTextFieldLogin().setText("");
-            loginForm.getTextFieldPassword().setText("");
+            showMessage("Incorrect login or password");
+            resetFields();
         }
     }
 
     private void onRegister() {
-        loginForm.getFrame().dispose();
+        disposeWindow();
         new RegisterClientFormController(service);
     }
 
     private void onCreateClient() {
-        loginForm.getFrame().dispose();
+        disposeWindow();
         new CreateClientFormController(service);
+    }
+
+    private void showMessage(String message) {
+        JOptionPane.showMessageDialog(loginForm.getFrame(), message);
+    }
+
+    private void resetFields() {
+        loginForm.getTextFieldLogin().setText("");
+        loginForm.getTextFieldPassword().setText("");
+    }
+
+    private void disposeWindow() {
+        loginForm.getFrame().dispose();
     }
 }

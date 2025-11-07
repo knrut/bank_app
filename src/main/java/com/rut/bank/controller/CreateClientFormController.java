@@ -29,27 +29,43 @@ public class CreateClientFormController {
         String lastName = createClientForm.getLastNameField().getText();
         LocalDate dob = createClientForm.getDateOfBirth();
         Nationality nat = createClientForm.getSelectedNationality();
-        if (DataValidator.validateNationalId(nationalId) && DataValidator.validateFirstName(firstName)
-                && DataValidator.validateLastName(lastName) && DataValidator.validateDithOfBirth(dob)) {
-            if (service.createClientProfile(nationalId, firstName, lastName, dob, nat)) {
-                JOptionPane.showMessageDialog(createClientForm.getFrame(), "Client Profile successfully created!\n" +
-                        "Nationality:\t" + nat + "\n" +
-                        "National ID:\t" + nationalId + "\n" +
-                        "First Name:\t" + firstName + "\n" +
-                        "Last Name:\t" + lastName );
-            }
-            else {
-                JOptionPane.showMessageDialog(createClientForm.getFrame(), "A customer with the information " +
-                        "you provided already exists. If you think this is an error, please contact your bank branch.");
-            }
+
+        boolean validInputFormat = DataValidator.validateNationalId(nationalId)
+                && DataValidator.validateFirstName(firstName)
+                && DataValidator.validateLastName(lastName)
+                && DataValidator.validateDithOfBirth(dob);
+
+        if (!validInputFormat) {
+            showMessage("Invalid data format");
+            //resetFields();
+            return;
         }
-        else {
-            JOptionPane.showMessageDialog(createClientForm.getFrame(), "One of the user-created fields has an invalid data format");
+
+        if (service.createClientProfile(nationalId, firstName, lastName, dob, nat)) {
+            showMessage(
+                    "Client Profile successfully created!\n" +
+                    "Nationality:\t" + nat + "\n" +
+                    "National ID:\t" + nationalId + "\n" +
+                    "First Name:\t" + firstName + "\n" +
+                    "Last Name:\t" + lastName
+            );
+        } else {
+            showMessage(
+                    "A customer with the information " +
+                    "you provided already exists. If you think this is an error, please contact your bank branch.");
         }
     }
 
     private void onLogout() {
         createClientForm.getFrame().dispose();
         new LoginFormController(service);
+    }
+
+    private void showMessage(String message) {
+        JOptionPane.showMessageDialog(createClientForm.getFrame(), message);
+    }
+
+    private void disposeWindow() {
+        createClientForm.getFrame().dispose();
     }
 }
