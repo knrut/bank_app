@@ -28,31 +28,45 @@ public class BankAccountController {
     }
 
     private void onDeposit() {
-        String input = JOptionPane.showInputDialog(bankAccountForm.getFrame(), "Enter deposit amount:");
-        if (DataValidator.isDecimal(input)) {
-            BigDecimal amount = new BigDecimal(input);
-            if (DataValidator.validateDeposit(amount)) {
-                service.makeDeposit(amount);
-                updateBalance();
-                service.updateInfo();
-            } else {
-                JOptionPane.showMessageDialog(bankAccountForm.getFrame(), "Incorrect amount");
-            }
+        String input = getInput("Enter deposit amount:");
+
+        if (!DataValidator.isDecimal(input)) {
+            showMessage("Please enter a valid amount");
+            return;
         }
+
+        BigDecimal amount = new BigDecimal(input.trim());
+
+        if (!DataValidator.validateDeposit(amount)) {
+            showMessage("Incorrect amount (must be positive)");
+            return;
+        }
+
+        service.makeDeposit(amount);
+        service.updateInfo();
+        updateBalance();
+        showMessage("Deposit successful: " + amount);
     }
 
     private void onWithdraw() {
-        String input = JOptionPane.showInputDialog(bankAccountForm.getFrame(), "Enter withdrawal amount:");
-        if (DataValidator.isDecimal(input)) {
-            BigDecimal amount = new BigDecimal(input);
-            if (DataValidator.validateWithdrawal(amount, service.getBalance())) {
-                service.makeWithdrawal(amount);
-                updateBalance();
-                service.updateInfo();
-            } else {
-                JOptionPane.showMessageDialog(bankAccountForm.getFrame(), "Exceeded withdrawal funds");
-            }
+        String input = getInput("Enter withdrawal amount:");
+
+        if (!DataValidator.isDecimal(input)) {
+            showMessage("Please enter a valid amount");
+            return;
         }
+
+        BigDecimal amount = new BigDecimal(input.trim());
+
+        if (!DataValidator.validateWithdrawal(amount, service.getBalance())) {
+            showMessage("Exceeded withdrawal funds");
+            return;
+        }
+
+        service.makeWithdrawal(amount);
+        service.updateInfo();
+        updateBalance();
+
     }
 
     private void onTransfer() {
@@ -84,6 +98,14 @@ public class BankAccountController {
         JOptionPane.showMessageDialog(bankAccountForm.getFrame(), "Logged out");
         bankAccountForm.getFrame().dispose();
         new LoginFormController(service);
+    }
+
+    private String getInput(String message) {
+        return JOptionPane.showInputDialog(bankAccountForm.getFrame(), message);
+    }
+
+    private void showMessage(String message) {
+        JOptionPane.showMessageDialog(bankAccountForm.getFrame(), message);
     }
 
 }
