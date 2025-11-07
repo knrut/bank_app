@@ -70,18 +70,29 @@ public class BankAccountController {
     }
 
     private void onTransfer() {
-        String input_amount = JOptionPane.showInputDialog(bankAccountForm.getFrame(), "Enter transfer amount: ");
-        String input_whereto = JOptionPane.showInputDialog(bankAccountForm.getFrame(), "Enter whereTo: ");
-        if (DataValidator.isDecimal(input_amount)) {
-            BigDecimal amount = new BigDecimal(input_amount);
-            if (DataValidator.validateWithdrawal(amount, service.getBalance())) {
-                service.makeTransfer(amount, input_whereto);
-                updateBalance();
-                service.updateInfo();
-            } else {
-                JOptionPane.showMessageDialog(bankAccountForm.getFrame(), "Incorrect amount");
-            }
+        String input_whereto = getInput("Enter the recipient: ");
+        if (!service.doesBankAccountExist(input_whereto)) {
+            showMessage("The recipient does not exist");
+            return;
         }
+
+        String input_amount = getInput("Enter transfer amount: ");
+        if (!DataValidator.isDecimal(input_amount)) {
+            showMessage("Please enter a valid amount");
+            return;
+        }
+
+        BigDecimal amount = new BigDecimal(input_amount.trim());
+
+        if (!DataValidator.validateWithdrawal(amount, service.getBalance())) {
+            showMessage("Exceeded transfer funds");
+            return;
+        }
+
+        service.makeTransfer(amount, input_whereto);
+        service.updateInfo();
+        updateBalance();
+
     }
 
     private void updateBalance() {
@@ -90,13 +101,13 @@ public class BankAccountController {
 
     private void onInfo() {
         BankAccount bankAccount = service.getLoggedInClient();
-        JOptionPane.showMessageDialog(bankAccountForm.getFrame(), "User: " + bankAccount.getLogin() + "\n- Account created at: "
+        showMessage("User: " + bankAccount.getLogin() + "\n- Account created at: "
                 + bankAccount.getDateCreated());
     }
 
     private void onLogout() {
-        JOptionPane.showMessageDialog(bankAccountForm.getFrame(), "Logged out");
-        bankAccountForm.getFrame().dispose();
+        showMessage("Logged out");
+        disposeWindow();
         new LoginFormController(service);
     }
 
@@ -106,6 +117,10 @@ public class BankAccountController {
 
     private void showMessage(String message) {
         JOptionPane.showMessageDialog(bankAccountForm.getFrame(), message);
+    }
+
+    private void disposeWindow() {
+        bankAccountForm.getFrame().dispose();
     }
 
 }

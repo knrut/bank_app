@@ -99,4 +99,8 @@ public class Service {
         return true;
     }
 
+    public boolean doesBankAccountExist(String login) {
+        return bankAccountRepository.findByLogin(login).isPresent();
+    }
+
 }

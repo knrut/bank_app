@@ -57,7 +57,7 @@ public class CreateClientFormController {
     }
 
     private void onLogout() {
-        createClientForm.getFrame().dispose();
+        disposeWindow();
         new LoginFormController(service);
     }
 
